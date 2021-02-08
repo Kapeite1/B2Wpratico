@@ -12,12 +12,9 @@ public class PlanetaList {
 	private String previous;
 	private List<PlanetaExterno> results;
 
-	
-	
 	public PlanetaList() {
 		super();
 	}
-
 
 	public int getCount() {
 		return count;

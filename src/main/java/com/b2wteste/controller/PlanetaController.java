@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,11 +30,12 @@ public class PlanetaController {
 	public ResponseEntity<List<Planeta>> getAllPlanetas() {
 		return new ResponseEntity<>(planetaService.findAll(), HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/planetas")
 	public ResponseEntity<Planeta> create(@RequestBody Planeta planeta) {
 		RestTemplate restTemplate = new RestTemplate();
-		PlanetaList search = restTemplate.getForObject("https://swapi.dev/api/planets/?search="+planeta.getNome(), PlanetaList.class);
+		PlanetaList search = restTemplate.getForObject("https://swapi.dev/api/planets/?search=" + planeta.getNome(),
+				PlanetaList.class);
 		planeta.setParticipacoes(search.getResults().get(0).getFilms().length);
 		return new ResponseEntity<>(planetaService.save(planeta), HttpStatus.CREATED);
 	}
@@ -48,7 +48,7 @@ public class PlanetaController {
 		}
 		return planeta;
 	}
-	
+
 	@GetMapping("/planetas/nome/{nome}")
 	public Optional<Planeta> getPlanetaByName(@PathVariable String nome) throws Exception {
 		nome = nome.substring(0, 1).toUpperCase() + nome.substring(1).toLowerCase();
@@ -69,6 +69,6 @@ public class PlanetaController {
 		}
 		planetaService.delete(planeta);
 		return planeta;
-	}	
+	}
 
 }
